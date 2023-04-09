@@ -15,8 +15,13 @@ from telegram import ReplyKeyboardMarkup
 
 from time import sleep , time
 
+Messages = {
+    'msg_start' : '{} درود'
+}
 
-
+def Start_Handller( update : Update , context : CallbackContext ):
+    name = update.message.chat.first_name
+    update.message.reply_text(Messages['msg_start'].format(name))
 
 
 # Main
@@ -25,7 +30,11 @@ if __name__ == '__main__' :
     TOKEN = open('Token.txt' , 'r').readline()
     
     # Updater
-    updater = Updater(TOKEN)
+    updater = Updater(token=TOKEN)
+
+    # #  # Commands ... # # #
+
+    updater.dispatcher.add_handler(CommandHandler('start' , Start_Handller))
 
 
     # Start Bot
