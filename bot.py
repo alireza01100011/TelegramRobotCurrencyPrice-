@@ -23,12 +23,14 @@ Messages = {
 }
 
 def Start_Handller( update : Update , context : CallbackContext ):
-    # Get first Name - User
+    # Get first Name and Chat ID
     name = update.message.chat.first_name
+    chat_id = update.message.chat_id
     # Send Message Hello
+    context.bot.send_chat_action(chat_id , ChatAction.TYPING) ; sleep(0.2)
     update.message.reply_text(Messages['msg_start'].format(name))
     # Seve Chat Id 
-    ChatIDManagement.Send(ChatID=update.message.chat_id) 
+    ChatIDManagement.Send(ChatID=chat_id) 
 
 
 # Main
