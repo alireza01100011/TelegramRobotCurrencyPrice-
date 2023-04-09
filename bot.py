@@ -15,13 +15,20 @@ from telegram import ReplyKeyboardMarkup
 
 from time import sleep , time
 
+from ChatID import ChatID
+ChatIDManagement = ChatID()
+
 Messages = {
     'msg_start' : '{} درود'
 }
 
 def Start_Handller( update : Update , context : CallbackContext ):
+    # Get first Name - User
     name = update.message.chat.first_name
+    # Send Message Hello
     update.message.reply_text(Messages['msg_start'].format(name))
+    # Seve Chat Id 
+    ChatIDManagement.Send(ChatID=update.message.chat_id) 
 
 
 # Main
