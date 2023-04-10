@@ -298,10 +298,10 @@ if __name__ == '__main__' :
 
     updater.dispatcher.add_handler(CommandHandler('help' , Help_Handller))
 
-    updater.dispatcher.add_handler(CommandHandler('coinlist' , CoinList_Handller))
+    updater.dispatcher.add_handler(CommandHandler('coinslist' , CoinList_Handller))
 
     updater.dispatcher.add_handler(CommandHandler('about' , About_Handller))
-    
+
     # Start Bot
     updater.start_polling()
     updater.idle()
