@@ -239,6 +239,7 @@ def Start_Handller( update : Update , context : CallbackContext ):
     # Get first Name and Chat ID
     name = update.message.chat.first_name
     chat_id = update.message.chat_id
+    user_id = update.message.chat.username
     # Main Keyboard 
     button = [
         [Messages['but_ShowCoinsList'] , Messages['but_Help']],
@@ -249,12 +250,14 @@ def Start_Handller( update : Update , context : CallbackContext ):
     update.message.reply_text(Messages['msg_start'].format(name) , reply_markup=ReplyKeyboardMarkup(button , resize_keyboard=True ))
     # Seve Chat Id 
     ChatIDManagement.Send(ChatID=chat_id) 
+    print(f'start : {chat_id} - {user_id}')
 
 
 
 def GetRate_Handller( update : Update , context : CallbackContext ) :
     # Get Chat Id
     chat_id = update.message.chat_id
+    user_id = update.message.chat.username
     # Get Args  
     Currencies = context.args
     # Control Warning
@@ -281,26 +284,36 @@ def GetRate_Handller( update : Update , context : CallbackContext ) :
             TextResult +=  f"این ارز وجود ندارد {coin}\n"
     update.message.reply_text(TextResult)
 
+    print(f'Getrate : {chat_id} - {user_id}')
+
 def CoinList_Handller(update : Update , context : CallbackContext):
     chat_id = update.message.chat_id
+    user_id = update.message.chat.username
     context.bot.send_chat_action(chat_id , ChatAction.TYPING) ; sleep(0.3)
     update.message.reply_text(Messages['msg_list_coins'])
     context.bot.send_chat_action(chat_id , ChatAction.TYPING) ; sleep(0.3)
     update.message.reply_text(Messages['msg_list_coin_2'])
 
+    print(f'Coinslist : {chat_id} - {user_id}')
+
 def Help_Handller(update : Update , context : CallbackContext):
     # Get Chat id
     chat_id = update.message.chat_id
+    user_id = update.message.chat.username
     # Chat Action
     context.bot.send_chat_action(chat_id , ChatAction.TYPING) ; sleep(0.3)
     update.message.reply_text(Messages['msg_help'])
+    print(f'Help : {chat_id} - {user_id}')
 
 def About_Handller(update : Update , context : CallbackContext):
     # Get Chat id
     chat_id = update.message.chat_id
+    user_id = update.message.chat.username
     # Chat Action
     context.bot.send_chat_action(chat_id , ChatAction.TYPING) ; sleep(0.3)
     update.message.reply_text(Messages['msg_abut'])
+
+    print(f'About : {chat_id} - {user_id}')
 
 
 # Main
