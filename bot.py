@@ -5,6 +5,7 @@
 from telegram.ext import Updater
 from telegram.ext import CallbackContext
 from telegram.ext import CommandHandler
+from telegram.ext import MessageHandler
 from telegram.ext import MessageFilter
 from telegram.ext import Filters
 
@@ -20,6 +21,11 @@ from API import Get
 ChatIDManagement = ChatID()
 
 Messages = {
+    'but_About' : 'درباره ما',
+    'but_ShowCoinsList' : 'نمایش لیست ارز ها',
+    'but_Help' : 'راهنما',
+
+
     'msg_start' : '{} درود',
     'msg_Warning_getrate' : 'لطفا حدقلا دو ارز را وارد کنید !',
     'msg_help' : 'این بات برای به دست اوردن قیمت ارز ساخته شده است برای استفاده از این بات باید دستوری /getrate را تایپ کرده و سپس ارز های مورد نظر خور را با یک فاصله از هم بنویسید \n برای مثال : \n/getrate BTC USD ABT\n',
@@ -233,11 +239,18 @@ def Start_Handller( update : Update , context : CallbackContext ):
     # Get first Name and Chat ID
     name = update.message.chat.first_name
     chat_id = update.message.chat_id
+    # Main Keyboard 
+    button = [
+        [Messages['but_ShowCoinsList'] , Messages['but_Help']],
+        [Messages['but_About']]
+    ]
     # Send Message Hello
     context.bot.send_chat_action(chat_id , ChatAction.TYPING) ; sleep(0.2)
-    update.message.reply_text(Messages['msg_start'].format(name))
+    update.message.reply_text(Messages['msg_start'].format(name) , reply_markup=ReplyKeyboardMarkup(button , resize_keyboard=True ))
     # Seve Chat Id 
     ChatIDManagement.Send(ChatID=chat_id) 
+
+
 
 def GetRate_Handller( update : Update , context : CallbackContext ) :
     # Get Chat Id
@@ -289,6 +302,7 @@ def About_Handller(update : Update , context : CallbackContext):
     context.bot.send_chat_action(chat_id , ChatAction.TYPING) ; sleep(0.3)
     update.message.reply_text(Messages['msg_abut'])
 
+
 # Main
 if __name__ == '__main__' :
     # Get API Token
@@ -308,6 +322,12 @@ if __name__ == '__main__' :
     updater.dispatcher.add_handler(CommandHandler('coinslist' , CoinList_Handller))
 
     updater.dispatcher.add_handler(CommandHandler('about' , About_Handller))
+
+    updater.dispatcher.add_handler(MessageHandler(Filters.regex(Messages['but_About']) , About_Handller ))
+
+    updater.dispatcher.add_handler(MessageHandler(Filters.regex(Messages['but_Help']) ,  Help_Handller))
+
+    updater.dispatcher.add_handler(MessageHandler(Filters.regex(Messages['but_ShowCoinsList']) , CoinList_Handller))
 
     # Start Bot
     updater.start_polling()
