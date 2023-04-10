@@ -23,7 +23,7 @@ Messages = {
     'msg_start' : '{} درود',
     'msg_Warning_getrate' : 'لطفا حدقلا دو ارز را وارد کنید !',
     'msg_help' : 'این بات برای به دست اوردن قیمت ارز ساخته شده است برای استفاده از این بات باید دستوری /getrate را تایپ کرده و سپس ارز های مورد نظر خور را با یک فاصله از هم بنویسید \n برای مثال : \n/getrate BTC USD ABT\n',
-
+    'msg_abut' : 'حساب گیت هاب توسعه دهنده : https://Github.com/alireza536',
     'msg_list_coins' : """
 1 -  42 ------->   42 Coin
 2 -  300 ------>   300 Token
@@ -274,6 +274,14 @@ def Help_Handller(update : Update , context : CallbackContext):
     # Chat Action
     context.bot.send_chat_action(chat_id , ChatAction.TYPING) ; sleep(0.3)
     update.message.reply_text(Messages['msg_help'])
+
+def About_Handller(update : Update , context : CallbackContext):
+    # Get Chat id
+    chat_id = update.message.chat_id
+    # Chat Action
+    context.bot.send_chat_action(chat_id , ChatAction.TYPING) ; sleep(0.3)
+    update.message.reply_text(Messages['msg_abut'])
+
 # Main
 if __name__ == '__main__' :
     # Get API Token
@@ -291,6 +299,9 @@ if __name__ == '__main__' :
     updater.dispatcher.add_handler(CommandHandler('help' , Help_Handller))
 
     updater.dispatcher.add_handler(CommandHandler('coinlist' , CoinList_Handller))
+
+    updater.dispatcher.add_handler(CommandHandler('about' , About_Handller))
+    
     # Start Bot
     updater.start_polling()
     updater.idle()
