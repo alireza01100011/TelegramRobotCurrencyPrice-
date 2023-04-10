@@ -269,7 +269,10 @@ def GetRate_Handller( update : Update , context : CallbackContext ) :
     update.message.reply_text(TextResult)
 
 def CoinList_Handller(update : Update , context : CallbackContext):
+    chat_id = update.message.chat_id
+    context.bot.send_chat_action(chat_id , ChatAction.TYPING) ; sleep(0.3)
     update.message.reply_text(Messages['msg_list_coins'])
+    context.bot.send_chat_action(chat_id , ChatAction.TYPING) ; sleep(0.3)
     update.message.reply_text(Messages['msg_list_coin_2'])
 
 def Help_Handller(update : Update , context : CallbackContext):
