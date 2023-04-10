@@ -240,15 +240,19 @@ def Start_Handller( update : Update , context : CallbackContext ):
     ChatIDManagement.Send(ChatID=chat_id) 
 
 def GetRate_Handller( update : Update , context : CallbackContext ) :
+    # Get Chat Id
+    chat_id = update.message.chat_id
     # Get Args  
     Currencies = context.args
-    Coin1 = Currencies[0]
+    # Control Warning
+    try : Coin1 = Currencies[0]
+    except IndexError : context.bot.send_chat_action(chat_id , ChatAction.TYPING) ; sleep(0.2) ; update.message.reply_text(Messages['msg_Warning_getrate']) ; return
+    
     Coins = ''
     _Dict_Coin = []
     for coin in Currencies[1:]: Coins += coin + ',' ; _Dict_Coin.append(coin)
-    # Get Chat Id
-    chat_id = update.message.chat_id
-    # 
+    
+    # Control Warning
     if len(Currencies) < 2 :
         context.bot.send_chat_action(chat_id , ChatAction.TYPING) ; sleep(0.2)
         update.message.reply_text(Messages['msg_Warning_getrate'])
